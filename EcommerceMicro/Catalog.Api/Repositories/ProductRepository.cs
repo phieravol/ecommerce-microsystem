@@ -26,13 +26,13 @@ namespace Catalog.Api.Repositories
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
-		public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
+		public async Task<IEnumerable<Product>> GetProductsByCategory(string categoryName)
 		{
             FilterDefinition<Product> filterDefinition = Builders<Product>.Filter.Eq(x => x.Category, categoryName);
             return await context.Products.Find(filterDefinition).ToListAsync();
         }
 
-		public async Task<Product> GetProductById(int id)
+		public async Task<Product> GetProductById(string id)
 		{
 			return await context.Products.Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 		}
