@@ -43,13 +43,22 @@ namespace Discount.Api.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Get discount infomation base on product name
+        /// </summary>
+        /// <param name="productName"></param>
+        /// <returns></returns>
         public async Task<Coupon> GetDiscount(string productName)
         {
+            //Init connection
             using var connection = new NpgsqlConnection(
                 configuration.GetConnectionString("DiscountDbConnection"));
-            string queryString = $"";
+
+            //Get coupon form database
             var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>(
                 "SELECT * FROM COUPON WHERE ProductName = @ProductName", new {ProductName = productName});
+
+            //Create default coupon if no result found
             if (coupon == null)
             {
                 Coupon defaultCoupon = new Coupon {
